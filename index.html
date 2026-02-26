@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💌</title>
+    <!-- Kawaii Font Stack -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="mood-soft">
+
+    <!-- Background Particles Layer -->
+    <div id="particles-container"></div>
+
+    <!-- Controls (Music & Mood) -->
+    <button id="music-control">🎵 Play Music</button>
+    <audio id="bg-music" loop>
+        <!-- Cute royalty-free music placeholder (pixabay) -->
+        <source
+            src="https://cdn.pixabay.com/download/audio/2022/12/28/audio_24e3939a3f.mp3?filename=kawaii-cute-bgm-131751.mp3"
+            type="audio/mpeg">
+    </audio>
+
+    <div class="mood-selector">
+        <button data-mood="soft" class="active">Soft 💗</button>
+        <button data-mood="sparkly">Extra Sparkly ✨</button>
+        <button data-mood="strawberry">Strawberry 🍓</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="card-container">
+
+        <!-- Name Input -->
+        <div class="name-input-section">
+            <input type="text" id="name-input" placeholder="Enter your name (cutie) ✨" maxlength="20">
+        </div>
+
+        <!-- The Valentine Card -->
+        <div class="card" id="main-card">
+
+            <!-- Cute Decorative Stickers -->
+            <div class="sticker sticker-1">🎀</div>
+            <div class="sticker sticker-2">✨</div>
+            <div class="sticker sticker-3">💖</div>
+            <div class="sticker sticker-4">🌸</div>
+
+            <!-- Initial cute blushing character GIF -->
+            <img id="main-gif" src="https://media.giphy.com/media/KztT2c4u8mYYUiMKdJ/giphy.gif"
+                alt="Cute Blushing Bear">
+
+            <h1 id="main-title">Will you be my Valentine? 💌</h1>
+            <p id="main-subtitle">Please say yes 🥺💖</p>
+
+            <div class="buttons" id="main-buttons">
+                <button id="btn-yes">Yes 💖</button>
+                <button id="btn-no">No 😭</button>
+            </div>
+
+            <!-- New: Surprise Options (Hidden Initially) -->
+            <div class="buttons hidden" id="options-container">
+                <button id="btn-letter">💌 Option 1: Letter</button>
+                <button id="btn-flowers">🌸 Option 2: Flowers</button>
+            </div>
+
+            <!-- New: Flowers Container (Hidden Initially) -->
+            <div id="flower-container" class="hidden">
+                <div class="flower rose">
+                    <div class="stem"></div>
+                    <div class="leaf leaf-left"></div>
+                    <div class="leaf leaf-right"></div>
+                    <div class="petals">
+                        <!-- Outer layer -->
+                        <div class="petal petal-1"></div>
+                        <div class="petal petal-2"></div>
+                        <div class="petal petal-3"></div>
+                        <div class="petal petal-4"></div>
+                        <div class="petal petal-5"></div>
+                        <!-- Middle layer -->
+                        <div class="petal petal-m-1"></div>
+                        <div class="petal petal-m-2"></div>
+                        <div class="petal petal-m-3"></div>
+                        <div class="petal petal-m-4"></div>
+                        <div class="petal petal-m-5"></div>
+                        <!-- Inner layer -->
+                        <div class="petal petal-i-1"></div>
+                        <div class="petal petal-i-2"></div>
+                        <div class="petal petal-i-3"></div>
+                        <!-- Rose core -->
+                        <div class="center rose-core"></div>
+                    </div>
+                </div>
+                <p id="flower-text">This flower is for you 🌸💖</p>
+                <button id="btn-back">⬅️ Back</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Sweet Love Letter Popup Modal -->
+    <div id="letter-modal" class="hidden">
+        <div class="letter-content">
+            <div class="letter-header">
+                <span id="letter-date"></span>
+            </div>
+            <div class="letter-body">
+                <h2>To: <span id="letter-name">My Valentine</span> 💕</h2>
+                <p>Thank you for making me the happiest person ever!! 🥰</p>
+                <p>I can't wait to spend time together, eat lots of yummy snacks, and make the cutest memories!</p>
+                <p>You're truly the best! 🍓✨</p>
+                <p class="signature">With endless love ❤️</p>
+            </div>
+            <button id="close-letter">Close ✨</button>
+        </div>
+    </div>
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
