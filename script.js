@@ -78,17 +78,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- Music Control ---
-    musicControl.addEventListener("click", () => {
+    function toggleMusic() {
         if (!musicPlaying) {
-            bgMusic.play().catch(e => console.log("Audio play failed, browser policy issue:", e));
-            musicControl.innerText = "🔊 Playing Music";
-            musicPlaying = true;
+            bgMusic.muted = false; // Unmute for actual playback
+            bgMusic.play().then(() => {
+                musicControl.innerText = "🔊 Playing Music";
+                musicPlaying = true;
+            }).catch(e => console.log("Audio play failed, browser policy issue:", e));
         } else {
             bgMusic.pause();
             musicControl.innerText = "🎵 Play Music";
             musicPlaying = false;
         }
-    });
+    }
+
+    musicControl.addEventListener("click", toggleMusic);
+
+    // Auto-play attempt on first user interaction (since most browsers block pure autoplay)
+    const startAudioOnInteraction = () => {
+        if (!musicPlaying) {
+            bgMusic.muted = false;
+            bgMusic.play().then(() => {
+                musicControl.innerText = "🔊 Playing Music";
+                musicPlaying = true;
+                // Remove listeners after success
+                document.removeEventListener('click', startAudioOnInteraction);
+                document.removeEventListener('touchstart', startAudioOnInteraction);
+            }).catch(() => {
+                // Keep listeners if failed (e.g. didn't actually interact with anything meaningful)
+            });
+        }
+    };
+
+    document.addEventListener('click', startAudioOnInteraction);
+    document.addEventListener('touchstart', startAudioOnInteraction);
 
     // --- No Button Escape Logic ---
     function moveNoButton() {
