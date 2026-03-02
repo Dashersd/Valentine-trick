@@ -79,22 +79,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // Auto-play on first user interaction (browsers block pure autoplay)
     const startAudioOnInteraction = () => {
         if (!musicPlaying) {
+            bgMusic.volume = 0.6; // Nice BG music volume
             bgMusic.play().then(() => {
                 musicPlaying = true;
+                console.log("Background music started! 🎵");
                 // Remove listeners after success
-                document.removeEventListener('click', startAudioOnInteraction);
-                document.removeEventListener('touchstart', startAudioOnInteraction);
-                document.removeEventListener('mousedown', startAudioOnInteraction);
+                const interactions = ['click', 'touchstart', 'mousedown', 'keydown', 'input'];
+                interactions.forEach(item => {
+                    document.removeEventListener(item, startAudioOnInteraction);
+                });
             }).catch(e => {
-                console.log("Audio play deferred until user interaction.");
+                // Keep trying until interaction succeeds
             });
         }
     };
 
-    // More aggressive interaction detection
-    document.addEventListener('click', startAudioOnInteraction);
-    document.addEventListener('touchstart', startAudioOnInteraction);
-    document.addEventListener('mousedown', startAudioOnInteraction);
+    // Very aggressive interaction detection for BG music
+    ['click', 'touchstart', 'mousedown', 'keydown', 'input'].forEach(event => {
+        document.addEventListener(event, startAudioOnInteraction);
+    });
 
     // --- No Button Escape Logic ---
     function moveNoButton() {
