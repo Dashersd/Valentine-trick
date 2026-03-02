@@ -131,8 +131,7 @@ h3 {
     z-index: 10;
 }
 
-.mood-selector button,
-#music-control {
+.mood-selector button {
     background: rgba(255, 255, 255, 0.7);
     border: 2px solid white;
     padding: 8px 15px;
@@ -147,20 +146,13 @@ h3 {
 }
 
 .mood-selector button.active,
-.mood-selector button:hover,
-#music-control:hover {
+.mood-selector button:hover {
     background: var(--text-color);
     color: white;
     transform: scale(1.05);
     border-color: var(--text-color);
 }
 
-#music-control {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 10;
-}
 
 .card-container {
     position: relative;
@@ -991,12 +983,6 @@ button {
         width: max-content;
     }
 
-    #music-control {
-        top: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
-    }
 
     .card-container {
         margin-top: 100px;

@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainGif = document.getElementById("main-gif");
     const nameInput = document.getElementById("name-input");
     const moodButtons = document.querySelectorAll(".mood-selector button");
-    const musicControl = document.getElementById("music-control");
     const bgMusic = document.getElementById("bg-music");
     const particlesContainer = document.getElementById("particles-container");
     const letterModal = document.getElementById("letter-modal");
@@ -77,41 +76,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- Music Control ---
-    function toggleMusic() {
-        if (!musicPlaying) {
-            bgMusic.muted = false; // Unmute for actual playback
-            bgMusic.play().then(() => {
-                musicControl.innerText = "🔊 Playing Music";
-                musicPlaying = true;
-            }).catch(e => console.log("Audio play failed, browser policy issue:", e));
-        } else {
-            bgMusic.pause();
-            musicControl.innerText = "🎵 Play Music";
-            musicPlaying = false;
-        }
-    }
-
-    musicControl.addEventListener("click", toggleMusic);
-
-    // Auto-play attempt on first user interaction (since most browsers block pure autoplay)
+    // Auto-play on first user interaction (browsers block pure autoplay)
     const startAudioOnInteraction = () => {
         if (!musicPlaying) {
-            bgMusic.muted = false;
             bgMusic.play().then(() => {
-                musicControl.innerText = "🔊 Playing Music";
                 musicPlaying = true;
                 // Remove listeners after success
                 document.removeEventListener('click', startAudioOnInteraction);
                 document.removeEventListener('touchstart', startAudioOnInteraction);
-            }).catch(() => {
-                // Keep listeners if failed (e.g. didn't actually interact with anything meaningful)
+                document.removeEventListener('mousedown', startAudioOnInteraction);
+            }).catch(e => {
+                console.log("Audio play deferred until user interaction.");
             });
         }
     };
 
+    // More aggressive interaction detection
     document.addEventListener('click', startAudioOnInteraction);
     document.addEventListener('touchstart', startAudioOnInteraction);
+    document.addEventListener('mousedown', startAudioOnInteraction);
 
     // --- No Button Escape Logic ---
     function moveNoButton() {
@@ -221,9 +204,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Start music if not started already
         if (!musicPlaying) {
-            bgMusic.play().catch(() => console.log("Audio not played automatically due to browser policy"));
-            musicControl.innerText = "🔊 Playing Music";
-            musicPlaying = true;
+            bgMusic.play().then(() => {
+                musicPlaying = true;
+            }).catch(() => { });
         }
 
         triggerConfettiBurst();
