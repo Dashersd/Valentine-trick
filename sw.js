@@ -4,6 +4,7 @@ const ASSETS = [
     './index.html',
     './style.css',
     './script.js',
+    './ssstik.io_1772433523983.mp3',
     'https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@500;700&display=swap'
 ];
 
