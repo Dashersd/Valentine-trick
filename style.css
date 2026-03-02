@@ -795,6 +795,100 @@ button {
     }
 }
 
+
+/* Install Banner Styles */
+.install-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    border: 2px solid white;
+    border-radius: 25px;
+    padding: 15px 20px;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+    z-index: 2000;
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 150%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.install-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.install-icon {
+    font-size: 2rem;
+}
+
+.install-text h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.install-text p {
+    font-size: 0.85rem;
+    margin: 5px 0 0;
+    color: #888;
+    line-height: 1.2;
+}
+
+.install-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+#btn-install {
+    background: var(--text-color);
+    color: white;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+}
+
+#btn-close-install {
+    background: transparent;
+    color: #ccc;
+    font-size: 1.2rem;
+    padding: 5px;
+    box-shadow: none;
+}
+
+#btn-close-install:hover {
+    color: var(--text-dark);
+}
+
+@media (max-width: 480px) {
+    .install-banner {
+        bottom: 10px;
+        width: 95%;
+        padding: 12px 15px;
+    }
+
+    .install-icon {
+        font-size: 1.5rem;
+    }
+}
+
 #letter-modal {
     position: fixed;
     top: 0;
@@ -806,7 +900,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 2100;
     opacity: 1;
     transition: opacity 0.4s ease;
 }

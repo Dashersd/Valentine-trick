@@ -1,0 +1,13 @@
+{
+    "name": "valentine-trick",
+    "version": "1.0.0",
+    "description": "A cute Valentine surprise website.",
+    "main": "script.js",
+    "scripts": {
+        "start": "npx serve .",
+        "dev": "npx serve ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

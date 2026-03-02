@@ -1,0 +1,21 @@
+{
+  "name": "Be My Valentine? 💌",
+  "short_name": "Valentine",
+  "description": "A cute Valentine surprise website.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffd1dc",
+  "theme_color": "#ff69b4",
+  "icons": [
+    {
+      "src": "https://media.giphy.com/media/KztT2c4u8mYYUiMKdJ/giphy.gif",
+      "sizes": "512x512",
+      "type": "image/gif"
+    },
+    {
+      "src": "https://media.giphy.com/media/KztT2c4u8mYYUiMKdJ/giphy.gif",
+      "sizes": "192x192",
+      "type": "image/gif"
+    }
+  ]
+}

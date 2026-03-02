@@ -9,6 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Quicksand:wght@500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Valentine">
+    <link rel="apple-touch-icon" href="https://media.giphy.com/media/KztT2c4u8mYYUiMKdJ/giphy.gif">
 </head>
 
 <body class="mood-soft">
@@ -114,6 +119,21 @@
                 <p class="signature">With endless love ❤️</p>
             </div>
             <button id="close-letter">Close ✨</button>
+        </div>
+    </div>
+
+    <!-- PWA Install Popup -->
+    <div id="install-banner" class="install-banner hidden">
+        <div class="install-content">
+            <div class="install-icon">🎁</div>
+            <div class="install-text">
+                <h3>Install App? ✨</h3>
+                <p id="install-instructions">Add to your home screen for the full experience!</p>
+            </div>
+            <div class="install-actions">
+                <button id="btn-install">Install</button>
+                <button id="btn-close-install">✕</button>
+            </div>
         </div>
     </div>
 

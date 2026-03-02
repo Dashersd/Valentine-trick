@@ -272,4 +272,75 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 400);
         }
     }
+
+    // --- PWA & Install Message Logic ---
+    const installBanner = document.getElementById("install-banner");
+    const installInstructions = document.getElementById("install-instructions");
+    const btnInstall = document.getElementById("btn-install");
+    const btnCloseInstall = document.getElementById("btn-close-install");
+    let deferredPrompt;
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker registered!'))
+                .catch(err => console.log('Service Worker registration failed:', err));
+        });
+    }
+
+    // Detect if already installed/standalone
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    // Detect Device OS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isAndroid = /Android/.test(navigator.userAgent);
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+
+        // Only show if not already installed and on mobile
+        if (!isStandalone && (isAndroid || isIOS)) {
+            showInstallBanner('android');
+        }
+    });
+
+    function showInstallBanner(os) {
+        if (isStandalone) return;
+
+        installBanner.classList.remove("hidden");
+
+        if (os === 'ios') {
+            installInstructions.innerHTML = "Tap the <span style='font-weight:bold'>Share</span> button and then <span style='font-weight:bold'>'Add to Home Screen'</span> 🎀";
+            btnInstall.classList.add("hidden"); // Can't trigger native prompt on iOS
+        } else {
+            installInstructions.innerText = "Install this app on your home screen for a better experience! ✨";
+            btnInstall.classList.remove("hidden");
+        }
+    }
+
+    // Check for iOS specifically since it doesn't support beforeinstallprompt
+    if (isIOS && !isStandalone) {
+        showInstallBanner('ios');
+    }
+
+    btnInstall.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                installBanner.classList.add("hidden");
+                deferredPrompt = null;
+            });
+        }
+    });
+
+    btnCloseInstall.addEventListener('click', () => {
+        installBanner.classList.add("hidden");
+    });
 });
