@@ -193,7 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => popup.remove(), 1000); // Wait for transition fade to finish
     }
 
-    // Trigger on touch/click
+    // Trigger on touch/click/hover
+    btnNo.addEventListener("mouseover", () => {
+        moveNoButton();
+    });
+
     btnNo.addEventListener("click", (e) => {
         e.preventDefault();
         moveNoButton();
@@ -247,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Hide the original buttons, input, and show the options
         mainButtons.classList.add("hidden");
+        btnNo.classList.add("hidden"); // Explicitly hide if it was moved to body
         document.querySelector(".name-input-section").classList.add("hidden");
         optionsContainer.classList.remove("hidden");
 
