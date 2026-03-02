@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let yesBtnScale = 1;
     let musicPlaying = false;
 
+    // Detect Device OS early for optimizations
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isAndroid = /Android/.test(navigator.userAgent);
+
     // Fun phrases to show when the "No" button escapes
     const noPhrases = [
         "EHHH? 😳",
@@ -36,25 +40,66 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = happyGifUrl;
 
     // --- Background Particles ---
+    const moodEmojis = {
+        soft: ['💖', '💕', '🌸', '✨'],
+        sparkly: ['✨', '⭐', '💎', '🌈'],
+        strawberry: ['🍓', '🍰', '🧁', '💖']
+    };
+
     function createParticle() {
         if (!particlesContainer) return;
-        const type = Math.random() > 0.5 ? 'heart' : 'sparkle';
+
+        const currentMood = document.body.className.replace('mood-', '') || 'soft';
+        const emojis = moodEmojis[currentMood] || moodEmojis.soft;
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
         const el = document.createElement("div");
-        el.className = type === 'heart' ? 'floating-heart' : 'floating-sparkle';
-        el.innerHTML = type === 'heart' ? (Math.random() > 0.5 ? '💖' : '💕') : '✨';
+        el.className = 'floating-particle';
+        el.innerHTML = emoji;
+        el.style.position = 'absolute';
+        el.style.pointerEvents = 'none';
 
         // Random horizontal positions
         el.style.left = Math.random() * 100 + "vw";
         // Random duration between 4s and 7s
-        el.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        el.style.animation = `floatUp ${(Math.random() * 3 + 4)}s linear forwards`;
+        el.style.fontSize = (Math.random() * 1 + 1) + "rem";
 
         particlesContainer.appendChild(el);
 
         // Remove particle from DOM after it floats up
         setTimeout(() => el.remove(), 7000);
     }
-    // Add a new particle every 500ms
-    setInterval(createParticle, 500);
+    // Add a new particle every 400ms (more for mobile to save performance)
+    const particleInterval = (isIOS || isAndroid) ? 800 : 400;
+    setInterval(createParticle, particleInterval);
+
+    // --- Heart Cursor Trail ---
+    let lastTrailTime = 0;
+    const createHeartTrail = (x, y) => {
+        const now = Date.now();
+        if (now - lastTrailTime < 50) return; // Throttle trail
+        lastTrailTime = now;
+
+        const heart = document.createElement("div");
+        heart.className = "heart-trail";
+        const trailEmojis = ['💖', '✨', '🌸', '💕'];
+        heart.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+        heart.style.left = x + "px";
+        heart.style.top = y + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    };
+
+    document.addEventListener("mousemove", (e) => {
+        createHeartTrail(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("touchmove", (e) => {
+        if (e.touches && e.touches[0]) {
+            createHeartTrail(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
 
 
     // --- Name Input / Title Updater ---
@@ -153,6 +198,11 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         moveNoButton();
     });
+
+    btnNo.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveNoButton();
+    }, { passive: false });
 
 
     // --- Yes Button Hover Particles ---
@@ -295,10 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Detect if already installed/standalone
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-    // Detect Device OS
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isAndroid = /Android/.test(navigator.userAgent);
 
     window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
